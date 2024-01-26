@@ -1,9 +1,9 @@
 class Afin:
     def __init__(self, texto, a, b):
-        self.texto = texto.lower()
+        self.texto = texto.upper()
         self.a = a
         self.b = b
-        self.alfabeto = "abcdefghijklmnñopqrstuvwxyz"
+        self.alfabeto = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
         self.mod = len(self.alfabeto)
         self.textoLimpio = self.limpiarTexto()
         self.cypherText = None
@@ -14,10 +14,10 @@ class Afin:
             if letra == " ":
                 textoLimpio += " "
             elif letra in self.alfabeto:
-                textoLimpio += letra.lower()
-            elif letra.lower() in ['á', 'é', 'í', 'ó', 'ú']:
+                textoLimpio += letra.upper()
+            elif letra.upper() in ['á', 'é', 'í', 'ó', 'ú']:
                 # Reemplazar letras con tilde
-                letra_sin_tilde = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}[letra.lower()]
+                letra_sin_tilde = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}[letra.upper()]
                 textoLimpio += letra_sin_tilde
         return textoLimpio
     
