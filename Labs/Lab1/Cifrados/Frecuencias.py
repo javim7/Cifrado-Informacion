@@ -34,21 +34,15 @@ class Frecuencias:
             similares = {}
             if frecuencia != 0.0:
                 redondeada = self.redondear_especial(frecuencia)
-                # print(letra, frecuencia, redondeada)
                 for letra_real, porcentaje_real in self.porcentajes_letras.items():
                     if redondeada == self.redondear_especial(porcentaje_real):
-                        # Calcular la diferencia absoluta entre el porcentaje real y el valor redondeado
                         diferencia_absoluta = abs(frecuencia - porcentaje_real)
                         
-                        # Almacenar la letra real y la diferencia absoluta en el diccionario de similares
                         similares[letra_real] = diferencia_absoluta
                 
                 if similares:
-                    # Encontrar la letra real con la diferencia mínima
                     letra_mas_cercana = min(similares, key=similares.get)
                     
-                    # print(letra, similares, letra_mas_cercana)
-                    # Sustituir la letra en el cypherText
                     sustitucion = sustitucion.replace(letra, letra_mas_cercana)
 
         return sustitucion

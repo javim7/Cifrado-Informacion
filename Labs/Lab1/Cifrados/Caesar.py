@@ -1,11 +1,11 @@
 class Caesar():
-    def __init__(self, texto, llave):
+    def __init__(self, texto, llave, alfabeto):
         self.texto = texto.upper()
         self.llave = llave
-        self.alfabeto = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+        self.alfabeto = alfabeto
         self.mod = len(self.alfabeto)
-        self.textoLimpio = self.limpiarTexto()
         self.cypherText = None
+        self.textoLimpio = self.limpiarTexto()
 
     def limpiarTexto(self):
         textoLimpio = ""
@@ -15,7 +15,6 @@ class Caesar():
             elif letra in self.alfabeto:
                 textoLimpio += letra.upper()
             elif letra.upper() in ['á', 'é', 'í', 'ó', 'ú']:
-                # Reemplazar letras con tilde
                 letra_sin_tilde = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}[letra.upper()]
                 textoLimpio += letra_sin_tilde
         return textoLimpio
