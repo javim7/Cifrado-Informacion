@@ -11,8 +11,8 @@ class Afin:
     def limpiarTexto(self):
         textoLimpio = ""
         for letra in self.texto:
-            if letra == " ":
-                textoLimpio += " "
+            if letra not in self.alfabeto:
+                textoLimpio += letra
             elif letra in self.alfabeto:
                 textoLimpio += letra.upper()
             elif letra.upper() in ['á', 'é', 'í', 'ó', 'ú']:
@@ -23,8 +23,8 @@ class Afin:
     def encrypt(self):
         cypherText = ""
         for letra in self.textoLimpio:
-            if letra == " ":
-                cypherText += " "
+            if letra not in self.alfabeto:
+                cypherText += letra
             else:
                 indice = self.alfabeto.index(letra)
                 indice = (self.a * indice + self.b) % self.mod
@@ -43,8 +43,8 @@ class Afin:
         plainText = ""
         inverse_a = self.inverso()
         for letra in self.cypherText:
-            if letra == " ":
-                plainText += " "
+            if letra not in self.alfabeto:
+                plainText += letra
             else:
                 indice = self.alfabeto.index(letra)
                 indice = inverse_a * (indice - self.b) % self.mod

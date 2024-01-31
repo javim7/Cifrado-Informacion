@@ -18,12 +18,13 @@ class Frecuencias:
         frecuencias = {letra : 0 for letra in self.alfabeto}
         largo = 0
         for letra in self.cypherText.replace(" ", ""):
-            if frecuencias[letra] != 0:
-                frecuencias[letra] += 1
-                largo += 1
-            else:
-                frecuencias[letra] = 1
-                largo += 1
+            if letra in self.alfabeto:
+                if frecuencias[letra] != 0:
+                    frecuencias[letra] += 1
+                    largo += 1
+                else:
+                    frecuencias[letra] = 1
+                    largo += 1
 
         for letra in frecuencias:
             frecuencias[letra] = frecuencias[letra] / largo * 100

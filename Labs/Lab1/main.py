@@ -19,6 +19,7 @@ if __name__ == '__main__':
     frecuencias1.sortedFrecuencias()
     print("Frecuencias: " + str(frecuencias1.frecuencias()))
     print("Frecuencias ordenadas: " + str(frecuencias1.sortedNew))
+    caesar.fuerzaBruta(frecuencias1.sortedOg, frecuencias1.sortedNew)
     print("")
 
     # Afin

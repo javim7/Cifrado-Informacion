@@ -11,8 +11,8 @@ class Vigenere:
     def limpiarTexto(self):
         textoLimpio = ""
         for letra in self.texto:
-            if letra == " ":
-                textoLimpio += " "
+            if letra not in self.alfabeto:
+                textoLimpio += letra
             elif letra in self.alfabeto:
                 textoLimpio += letra.upper()
             elif letra.upper() in ['á', 'é', 'í', 'ó', 'ú']:
@@ -25,7 +25,7 @@ class Vigenere:
         llave_indice = 0 
         for i in range(len(self.textoLimpio)):
             letra = self.textoLimpio[i]
-            if letra == " ":
+            if letra not in self.alfabeto:
                 cypherText += letra
             elif letra in self.alfabeto:
                 indice_letra = self.alfabeto.index(letra)
@@ -42,7 +42,7 @@ class Vigenere:
         llave_indice = 0 
         for i in range(len(self.cypherText)):
             letra = self.cypherText[i]
-            if letra == " ":
+            if letra not in self.alfabeto:
                 plainText += letra
             elif letra in self.alfabeto:
                 indice_letra = self.alfabeto.index(letra)
