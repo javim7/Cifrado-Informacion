@@ -16,8 +16,9 @@ if __name__ == '__main__':
     print("Texto cifrado: " + caesar.encrypt())
     print("Texto descifrado: " + caesar.decrypt())
     frecuencias1 = Frecuencias(caesar.cypherText)
+    frecuencias1.sortedFrecuencias()
     print("Frecuencias: " + str(frecuencias1.frecuencias()))
-    
+    print("Frecuencias ordenadas: " + str(frecuencias1.sortedNew))
     print("")
 
     # Afin
@@ -31,7 +32,9 @@ if __name__ == '__main__':
     print("Texto cifrado: " + afin.encrypt())
     print("Texto descifrado: " + afin.decrypt())
     frecuencias2 = Frecuencias(afin.cypherText)
+    frecuencias2.sortedFrecuencias()
     print("Frecuencias: " + str(frecuencias2.frecuencias()))
+    print("Frecuencias ordenadas: " + str(frecuencias2.sortedNew))
     print("")
 
     # Vigenere
@@ -42,6 +45,8 @@ if __name__ == '__main__':
     print("Texto limpio: " + vigenere.textoLimpio)
     print("Texto cifrado: " + vigenere.encrypt())
     print("Texto descifrado: " + vigenere.decrypt())
-    frecuencias3 = Frecuencias(afin.cypherText)
+    frecuencias3 = Frecuencias(vigenere.cypherText)
+    frecuencias3.sortedFrecuencias()
     print("Frecuencias: " + str(frecuencias3.frecuencias()))
+    print("Frecuencias ordenadas: " + str(frecuencias3.sortedNew))
     print("")
