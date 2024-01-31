@@ -5,8 +5,6 @@ from Cifrados.Alfabeto import *
 from Cifrados.Frecuencias import *
 
 if __name__ == '__main__':
-    # Frecuencias 
-    frecuencias = Frecuencias()
 
     # Caesar
     texto = "ATACAR AL AMANECER"
@@ -17,8 +15,9 @@ if __name__ == '__main__':
     print("Texto limpio: " + caesar.textoLimpio)
     print("Texto cifrado: " + caesar.encrypt())
     print("Texto descifrado: " + caesar.decrypt())
-    print("Frecuencias: " + str(frecuencias.frecuencias(caesar.cypherText)))
-    print("Cifrado sustituido: " + str(frecuencias.sustituir_letras(frecuencias.nuevas_frecuencias, caesar.cypherText)))
+    frecuencias1 = Frecuencias(caesar.cypherText)
+    print("Frecuencias: " + str(frecuencias1.frecuencias()))
+    
     print("")
 
     # Afin
@@ -31,8 +30,8 @@ if __name__ == '__main__':
     print("Texto limpio: " + afin.textoLimpio)
     print("Texto cifrado: " + afin.encrypt())
     print("Texto descifrado: " + afin.decrypt())
-    print("Frecuencias: " + str(frecuencias.frecuencias(afin.cypherText)))
-    print("Cifrado sustituido: " + str(frecuencias.sustituir_letras(frecuencias.nuevas_frecuencias, afin.cypherText)))
+    frecuencias2 = Frecuencias(afin.cypherText)
+    print("Frecuencias: " + str(frecuencias2.frecuencias()))
     print("")
 
     # Vigenere
@@ -43,6 +42,6 @@ if __name__ == '__main__':
     print("Texto limpio: " + vigenere.textoLimpio)
     print("Texto cifrado: " + vigenere.encrypt())
     print("Texto descifrado: " + vigenere.decrypt())
-    print("Frecuencias: " + str(frecuencias.frecuencias(vigenere.cypherText)))
-    print("Cifrado sustituido: " + str(frecuencias.sustituir_letras(frecuencias.nuevas_frecuencias, vigenere.cypherText)))
+    frecuencias3 = Frecuencias(afin.cypherText)
+    print("Frecuencias: " + str(frecuencias3.frecuencias()))
     print("")

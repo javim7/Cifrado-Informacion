@@ -1,5 +1,6 @@
 class Frecuencias:
-    def __init__(self):
+    def __init__(self, cypherText):
+        self.cypherText = cypherText
         self.alfabeto = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
         self.porcentajes_letras = {
             'A': 12.53, 'B': 1.42, 'C': 4.68, 'D': 5.86, 'E': 13.68,
@@ -10,11 +11,13 @@ class Frecuencias:
             'Y': 0.90, 'Z': 0.52
         }
         self.nuevas_frecuencias = None
+        self.sortedOg = None
+        self.sortedNew = None
 
-    def frecuencias(self, cypherText):
+    def frecuencias(self):
         frecuencias = {letra : 0 for letra in self.alfabeto}
         largo = 0
-        for letra in cypherText.replace(" ", ""):
+        for letra in self.cypherText.replace(" ", ""):
             if frecuencias[letra] != 0:
                 frecuencias[letra] += 1
                 largo += 1
@@ -28,29 +31,7 @@ class Frecuencias:
         self.nuevas_frecuencias = frecuencias
         return frecuencias
     
-    def sustituir_letras(self, frecuenciasNuevas, cypherText):
-        sustitucion = cypherText
-        for letra, frecuencia in frecuenciasNuevas.items():
-            similares = {}
-            if frecuencia != 0.0:
-                redondeada = self.redondear_especial(frecuencia)
-                for letra_real, porcentaje_real in self.porcentajes_letras.items():
-                    if redondeada == self.redondear_especial(porcentaje_real):
-                        diferencia_absoluta = abs(frecuencia - porcentaje_real)
-                        
-                        similares[letra_real] = diferencia_absoluta
-                
-                if similares:
-                    letra_mas_cercana = min(similares, key=similares.get)
-                    
-                    sustitucion = sustitucion.replace(letra, letra_mas_cercana)
-
-        return sustitucion
-    
-    def redondear_especial(self, numero):
-        entero = int(numero)
-        fraccion = numero - entero
-        if fraccion == 0.5:
-            return entero + 1
-        else:
-            return round(numero)
+    def sortedFrecuencias(self):
+        self.sortedNew = dict(sorted(self.frecuencias().items(), key=lambda x: x[1], reverse=True))
+        self.sortedOg = dict(sorted(self.porcentajes_letras.items(), key=lambda x: x[1], reverse=True))
+        return self.sortedNew, self.sortedOg
