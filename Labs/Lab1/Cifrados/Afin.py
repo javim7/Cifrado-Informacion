@@ -1,16 +1,10 @@
-class Afin:
-    def __init__(self, texto, a, b, alfabeto):
-        self.texto = texto.upper()
-        self.a = a
-        self.b = b
-        self.alfabeto = alfabeto
-        self.mod = len(self.alfabeto)
-        self.textoLimpio = self.limpiarTexto()
-        self.cypherText = None
+class Afin():
+    def __init__(self):
+        self.alfabeto = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
 
-    def limpiarTexto(self):
+    def limpiarTexto(self, texto):
         textoLimpio = ""
-        for letra in self.texto:
+        for letra in texto:
             if letra not in self.alfabeto:
                 textoLimpio += letra
             elif letra in self.alfabeto:
@@ -20,72 +14,28 @@ class Afin:
                 textoLimpio += letra_sin_tilde
         return textoLimpio
     
-    def encrypt(self):
+    def encrypt(self, texto, a, b):
+        textoLimpiado = self.limpiarTexto(texto)
         cypherText = ""
-        for letra in self.textoLimpio:
+        for letra in textoLimpiado:
             if letra not in self.alfabeto:
                 cypherText += letra
             else:
                 indice = self.alfabeto.index(letra)
-                indice = (self.a * indice + self.b) % self.mod
-                cypherText += self.alfabeto[indice]
-
-        self.cypherText = cypherText
-        return cypherText
-    
-    def encrypt3(self, plainText, a, b):
-        cypherText = ""
-        for letra in plainText:
-            if letra not in self.alfabeto:
-                cypherText += letra
-            else:
-                indice = self.alfabeto.index(letra)
-                indice = (a * indice + b) % self.mod
-                cypherText += self.alfabeto[indice]
-
-        self.cypherText = cypherText
-        return cypherText
-    
-    def encrypt2(self, plainText, a ,b):
-        cypherText = ""
-        for letra in plainText:
-            if letra not in self.alfabeto:
-                cypherText += letra
-            else:
-                indice = self.alfabeto.index(letra)
-                indice = (a * indice + b) % self.mod
+                indice = (a * indice + b) % len(self.alfabeto)
                 cypherText += self.alfabeto[indice]
 
         return cypherText
     
-    def inverso(self):
-        for i in range(self.mod):
-            if (self.a * i) % self.mod == 1:
+    def inverso(self, a):
+        for i in range(len(self.alfabeto)):
+            if (a * i) % len(self.alfabeto) == 1:
                 return i
         return -1
 
-    def decrypt(self):
+    def decrypt(self, cypherText, a, b):
         plainText = ""
-        inverse_a = self.inverso()
-        for letra in self.cypherText:
-            if letra not in self.alfabeto:
-                plainText += letra
-            else:
-                indice = self.alfabeto.index(letra)
-                indice = inverse_a * (indice - self.b) % self.mod
-                plainText += self.alfabeto[indice]
-
-        return plainText
-    
-    def inverso2(self, a):
-        for i in range(self.mod):
-            if (a * i) % self.mod == 1:
-                return i
-        return -1
-
-    def decrypt2(self, cypherText, a, b):
-        plainText = ""
-        inverse_a = self.inverso2(a)
+        inverse_a = self.inverso(a)
         if inverse_a == -1:
             pass
         for letra in cypherText:
@@ -93,29 +43,35 @@ class Afin:
                 plainText += letra
             else:
                 indice = self.alfabeto.index(letra)
-                indice = inverse_a * (indice - b) % self.mod
+                indice = (inverse_a * (indice - b)) % len(self.alfabeto)
                 plainText += self.alfabeto[indice]
 
         return plainText
     
-    def fuerzaBruta(self, texto, sortedOG, sortedNew):
-        firstOg = next(iter(sortedOG.keys()))
-        secondOg = next(iter(sortedOG.keys()))
+    def fuerzaBruta(self, texto, sortedTeo, sortedExp):
+        firstTeo = next(iter(sortedTeo.keys()))
+        secondTeo = next(iter(sortedTeo.keys()))
 
-        firstNew = next(iter(sortedNew.keys()))
-        secondNew = next(iter(sortedNew.keys()))
+        firstExp = next(iter(sortedExp.keys()))
+        secondExp = next(iter(sortedExp.keys()))
 
-        aKey = (self.alfabeto.index(firstNew) - self.alfabeto.index(firstOg)) % self.mod
-        bKey = (self.alfabeto.index(secondNew) - self.alfabeto.index(secondOg)) % self.mod
+        aKey = (self.alfabeto.index(firstExp) - self.alfabeto.index(firstTeo)) % len(self.alfabeto)
+        bKey = (self.alfabeto.index(secondExp) - self.alfabeto.index(secondTeo)) % len(self.alfabeto)
 
         dictionary = {}
-        for i in range(aKey, aKey + self.mod):
-            current_a = i % self.mod
-            for j in range(bKey, bKey + self.mod):
-                current_b = j % self.mod
-                plainText = self.decrypt2(texto, current_a, current_b)
+        for i in range(aKey, aKey + len(self.alfabeto)):
+            current_a = i % len(self.alfabeto)
+            for j in range(bKey, bKey + len(self.alfabeto)):
+                current_b = j % len(self.alfabeto)
+                plainText = self.decrypt(texto, current_a, current_b)
                 # print(current_a, current_b, plainText[:20])
                 dictionary[(current_a, current_b)] = plainText
         
-        for key, value in dictionary.items():
-            print("a: " + str(key[0]) + " b: " + str(key[1]) + " Texto: " + value[:20])
+        output_file_path = "Labs/Lab1/Textos/afin.txt"
+        try:
+            with open(output_file_path, 'w') as file:
+                for key, value in dictionary.items():
+                    file.write("({:2d},{:2d}) : {}\n".format(key[0], key[1], value))
+                print(f"Resultados escritos en: '{output_file_path}'.")
+        except Exception as e:
+            print("Ha ocurrido un error: ", e)

@@ -1,15 +1,10 @@
 class Caesar():
-    def __init__(self, texto, llave, alfabeto):
-        self.texto = texto.upper()
-        self.llave = llave
-        self.alfabeto = alfabeto
-        self.mod = len(self.alfabeto)
-        self.cypherText = None
-        self.textoLimpio = self.limpiarTexto()
+    def __init__(self):
+        self.alfabeto = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
 
-    def limpiarTexto(self):
+    def limpiarTexto(self, texto):
         textoLimpio = ""
-        for letra in self.texto:
+        for letra in texto:
             if letra not in self.alfabeto:
                 textoLimpio += letra
             elif letra in self.alfabeto:
@@ -18,56 +13,30 @@ class Caesar():
                 letra_sin_tilde = {'á': 'a', 'é': 'e', 'í': 'i', 'ó': 'o', 'ú': 'u'}[letra.upper()]
                 textoLimpio += letra_sin_tilde
         return textoLimpio
-
-    def encrypt(self):
+    
+    def encrypt(self, texto, clave):
+        textoLimpiado = self.limpiarTexto(texto)
         cypherText = ""
-        for letra in self.textoLimpio:
+        for letra in textoLimpiado:
             if letra not in self.alfabeto:
                 cypherText += letra
             else:
                 indice = self.alfabeto.index(letra)
-                indice += self.llave
-                indice = indice % self.mod
-                cypherText += self.alfabeto[indice]
-
-        self.cypherText = cypherText
-        return cypherText
-    
-    def encrypt2(self, plainText, llave):
-        cypherText = ""
-        for letra in plainText:
-            if letra not in self.alfabeto:
-                cypherText += letra
-            else:
-                indice = self.alfabeto.index(letra)
-                indice += llave
-                indice = indice % self.mod
+                indice += clave
+                indice = indice % len(self.alfabeto)
                 cypherText += self.alfabeto[indice]
 
         return cypherText
-
-    def decrypt(self):
-        plainText = ""
-        for letra in self.cypherText:
-            if letra not in self.alfabeto:
-                plainText += letra
-            else:
-                indice = self.alfabeto.index(letra)
-                indice -= self.llave
-                indice = indice % self.mod
-                plainText += self.alfabeto[indice]
-
-        return plainText
     
-    def decrypt2(self, cypherText, llave):
+    def decrypt(self, cypherText, clave):
         plainText = ""
         for letra in cypherText:
             if letra not in self.alfabeto:
                 plainText += letra
             else:
                 indice = self.alfabeto.index(letra)
-                indice -= llave
-                indice = indice % self.mod
+                indice -= clave
+                indice = indice % len(self.alfabeto)
                 plainText += self.alfabeto[indice]
 
         return plainText
@@ -76,18 +45,22 @@ class Caesar():
         firstOg = next(iter(sortedOg.keys()))
         firstNew = next(iter(sortedNew.keys()))
 
-        key = (self.alfabeto.index(firstNew) - self.alfabeto.index(firstOg)) % self.mod
+        key = (self.alfabeto.index(firstNew) - self.alfabeto.index(firstOg)) % len(self.alfabeto)
         # print(firstOg, firstNew, key)
 
         dict = {}
-        for i in range(key, key + self.mod):
-            current_key = i % self.mod
+        for i in range(key, key + len(self.alfabeto)):
+            current_key = i % len(self.alfabeto)
 
-            plainText = self.decrypt2(texto, current_key)
+            plainText = self.decrypt(texto, current_key)
             dict[current_key] = plainText
             # print("Key: {:2d} Text: {}".format(current_key, plainText))
 
-        for key, value in dict.items():
-            print("Key: " + str(key) +" Texto: " + value[:20])
-        
-
+        output_file_path = "Labs/Lab1/Textos/caesar.txt"
+        try:
+            with open(output_file_path, 'w') as output_file:
+                for key, value in dict.items():
+                    output_file.write("{} : {}\n".format(key, value))
+            print(f"Resultados escritos en: '{output_file_path}'.")
+        except Exception as e:
+            print(f"Ha ocurrido un error: {e}")
