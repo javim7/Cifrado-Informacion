@@ -33,14 +33,27 @@ class Afin:
         self.cypherText = cypherText
         return cypherText
     
-    def encrypt2(self, plaiText):
+    def encrypt3(self, plainText, a, b):
         cypherText = ""
-        for letra in plaiText:
+        for letra in plainText:
             if letra not in self.alfabeto:
                 cypherText += letra
             else:
                 indice = self.alfabeto.index(letra)
-                indice = (self.a * indice + self.b) % self.mod
+                indice = (a * indice + b) % self.mod
+                cypherText += self.alfabeto[indice]
+
+        self.cypherText = cypherText
+        return cypherText
+    
+    def encrypt2(self, plainText, a ,b):
+        cypherText = ""
+        for letra in plainText:
+            if letra not in self.alfabeto:
+                cypherText += letra
+            else:
+                indice = self.alfabeto.index(letra)
+                indice = (a * indice + b) % self.mod
                 cypherText += self.alfabeto[indice]
 
         return cypherText
@@ -49,7 +62,7 @@ class Afin:
         for i in range(self.mod):
             if (self.a * i) % self.mod == 1:
                 return i
-        return None
+        return -1
 
     def decrypt(self):
         plainText = ""
@@ -68,25 +81,24 @@ class Afin:
         for i in range(self.mod):
             if (a * i) % self.mod == 1:
                 return i
-        return None
+        return -1
 
     def decrypt2(self, cypherText, a, b):
         plainText = ""
         inverse_a = self.inverso2(a)
+        if inverse_a == -1:
+            pass
         for letra in cypherText:
-            try:
-                if letra not in self.alfabeto:
-                    plainText += letra
-                else:
-                    indice = self.alfabeto.index(letra)
-                    indice = inverse_a * (indice - b) % self.mod
-                    plainText += self.alfabeto[indice]
-            except:
-                pass
+            if letra not in self.alfabeto:
+                plainText += letra
+            else:
+                indice = self.alfabeto.index(letra)
+                indice = inverse_a * (indice - b) % self.mod
+                plainText += self.alfabeto[indice]
 
         return plainText
     
-    def fuerzaBruta(self, sortedOG, sortedNew):
+    def fuerzaBruta(self, texto, sortedOG, sortedNew):
         firstOg = next(iter(sortedOG.keys()))
         secondOg = next(iter(sortedOG.keys()))
 
@@ -101,17 +113,9 @@ class Afin:
             current_a = i % self.mod
             for j in range(bKey, bKey + self.mod):
                 current_b = j % self.mod
-                plainText = self.decrypt2(self.cypherText, current_a, current_b)
-                # print(current_a, current_b, plainText)
+                plainText = self.decrypt2(texto, current_a, current_b)
+                # print(current_a, current_b, plainText[:20])
                 dictionary[(current_a, current_b)] = plainText
-
-        puedeSer = ''
+        
         for key, value in dictionary.items():
-            if value == self.textoLimpio:
-                puedeSer = value
-                # print("Key: a={}, b={} Text: {}".format(key[0], key[1], value)) 
-                break
-
-        if self.encrypt2(puedeSer) == self.cypherText:
-            print("a: " + str(key[0]) + " b: " + str(key[1]) + " Text: " + puedeSer)
-
+            print("a: " + str(key[0]) + " b: " + str(key[1]) + " Texto: " + value[:20])

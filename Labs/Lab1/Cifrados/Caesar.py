@@ -33,14 +33,14 @@ class Caesar():
         self.cypherText = cypherText
         return cypherText
     
-    def encrypt2(self, plainText):
+    def encrypt2(self, plainText, llave):
         cypherText = ""
         for letra in plainText:
             if letra not in self.alfabeto:
                 cypherText += letra
             else:
                 indice = self.alfabeto.index(letra)
-                indice += self.llave
+                indice += llave
                 indice = indice % self.mod
                 cypherText += self.alfabeto[indice]
 
@@ -72,7 +72,7 @@ class Caesar():
 
         return plainText
     
-    def fuerzaBruta(self, sortedOg, sortedNew):
+    def fuerzaBruta(self, texto, sortedOg, sortedNew):
         firstOg = next(iter(sortedOg.keys()))
         firstNew = next(iter(sortedNew.keys()))
 
@@ -83,20 +83,11 @@ class Caesar():
         for i in range(key, key + self.mod):
             current_key = i % self.mod
 
-            plainText = self.decrypt2(self.cypherText, current_key)
+            plainText = self.decrypt2(texto, current_key)
             dict[current_key] = plainText
             # print("Key: {:2d} Text: {}".format(current_key, plainText))
 
-        puedeSer = ''
         for key, value in dict.items():
-            if value == self.textoLimpio:
-                puedeSer = value
-                # print("Key: {:2d} Text: {}".format(key, value))
-                break
-
-        if self.encrypt2(puedeSer) == self.cypherText:
-            # print("Key: {:2d} Text: {}".format(key, value))
-            print("Key: " + str(key) +" Text: " + value)
-
+            print("Key: " + str(key) +" Texto: " + value[:20])
         
 

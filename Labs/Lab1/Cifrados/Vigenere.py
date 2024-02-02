@@ -52,3 +52,6 @@ class Vigenere:
                 llave_indice = (llave_indice + 1) % len(self.llave) 
 
         return plainText
+    
+    def fuerzaBruta(self, sortedOg, sortedNew):
+        pass
