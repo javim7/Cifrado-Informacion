@@ -33,6 +33,18 @@ class Afin:
         self.cypherText = cypherText
         return cypherText
     
+    def encrypt2(self, plaiText):
+        cypherText = ""
+        for letra in plaiText:
+            if letra not in self.alfabeto:
+                cypherText += letra
+            else:
+                indice = self.alfabeto.index(letra)
+                indice = (self.a * indice + self.b) % self.mod
+                cypherText += self.alfabeto[indice]
+
+        return cypherText
+    
     def inverso(self):
         for i in range(self.mod):
             if (self.a * i) % self.mod == 1:
@@ -51,3 +63,55 @@ class Afin:
                 plainText += self.alfabeto[indice]
 
         return plainText
+    
+    def inverso2(self, a):
+        for i in range(self.mod):
+            if (a * i) % self.mod == 1:
+                return i
+        return None
+
+    def decrypt2(self, cypherText, a, b):
+        plainText = ""
+        inverse_a = self.inverso2(a)
+        for letra in cypherText:
+            try:
+                if letra not in self.alfabeto:
+                    plainText += letra
+                else:
+                    indice = self.alfabeto.index(letra)
+                    indice = inverse_a * (indice - b) % self.mod
+                    plainText += self.alfabeto[indice]
+            except:
+                pass
+
+        return plainText
+    
+    def fuerzaBruta(self, sortedOG, sortedNew):
+        firstOg = next(iter(sortedOG.keys()))
+        secondOg = next(iter(sortedOG.keys()))
+
+        firstNew = next(iter(sortedNew.keys()))
+        secondNew = next(iter(sortedNew.keys()))
+
+        aKey = (self.alfabeto.index(firstNew) - self.alfabeto.index(firstOg)) % self.mod
+        bKey = (self.alfabeto.index(secondNew) - self.alfabeto.index(secondOg)) % self.mod
+
+        dictionary = {}
+        for i in range(aKey, aKey + self.mod):
+            current_a = i % self.mod
+            for j in range(bKey, bKey + self.mod):
+                current_b = j % self.mod
+                plainText = self.decrypt2(self.cypherText, current_a, current_b)
+                # print(current_a, current_b, plainText)
+                dictionary[(current_a, current_b)] = plainText
+
+        puedeSer = ''
+        for key, value in dictionary.items():
+            if value == self.textoLimpio:
+                puedeSer = value
+                # print("Key: a={}, b={} Text: {}".format(key[0], key[1], value)) 
+                break
+
+        if self.encrypt2(puedeSer) == self.cypherText:
+            print("a: " + str(key[0]) + " b: " + str(key[1]) + " Text: " + puedeSer)
+

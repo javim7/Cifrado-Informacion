@@ -77,7 +77,7 @@ class Caesar():
         firstNew = next(iter(sortedNew.keys()))
 
         key = (self.alfabeto.index(firstNew) - self.alfabeto.index(firstOg)) % self.mod
-        print(firstOg, firstNew, key)
+        # print(firstOg, firstNew, key)
 
         dict = {}
         for i in range(key, key + self.mod):
@@ -85,7 +85,7 @@ class Caesar():
 
             plainText = self.decrypt2(self.cypherText, current_key)
             dict[current_key] = plainText
-            print("Key: {:2d} Text: {}".format(current_key, plainText))
+            # print("Key: {:2d} Text: {}".format(current_key, plainText))
 
         puedeSer = ''
         for key, value in dict.items():
@@ -96,8 +96,7 @@ class Caesar():
 
         if self.encrypt2(puedeSer) == self.cypherText:
             # print("Key: {:2d} Text: {}".format(key, value))
-            print("Key: {:2d}".format(key))
-            print("Text: {}".format(value))
+            print("Key: " + str(key) +" Text: " + value)
 
         
 
