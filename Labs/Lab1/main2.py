@@ -79,6 +79,15 @@ def parteB():
 
     # Vigenere
     print('\n\t[3] VIGENERE')
+    with open('Labs/Lab1/Textos/cipher3.txt', 'r') as file:
+        textoVigenere = file.read()
+    
+    vigenere = Vigenere()
+    frecuenciasVigenere = Frecuencias()
+    frecuenciasExp = frecuenciasVigenere.obtenerFrecuencias(textoVigenere)
+    frecuenciasExpSort, frecuenciasTeoSort = frecuenciasVigenere.ordenarFrecuencias(frecuenciasExp)
+    longitud = vigenere.obtenerLongitud(textoVigenere)
+    vigenere.fuerzaBruta2(textoVigenere, longitud)
 
 if __name__ == '__main__':
     parteA()
