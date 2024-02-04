@@ -31,3 +31,33 @@ class Frecuencias():
         sortedExp = dict(sorted(frecuenciasExp.items(), key=lambda x: x[1], reverse=True))
         sortedTeo = dict(sorted(self.frecuenciasTeoricas.items(), key=lambda x: x[1], reverse=True))
         return sortedExp, sortedTeo
+    
+    def compararFrecuencias(self, pathViejo, pathNuevo):
+        textosDecriptados = []
+        with open(pathViejo, 'r') as file:
+            textosDecriptados = [line.strip() for line in file]
+
+        similitudes = []
+        for line in textosDecriptados:
+            key, value = line.split(" : ")
+            frecuenciasDict = self.calcularFrecuencias(value)
+            similitud = self.calcularSimilitud(frecuenciasDict)
+            similitudes.append((key, similitud, value))
+
+        textosSorteados = sorted(similitudes, key=lambda x: x[1])
+
+        try:
+            with open(pathNuevo, 'w') as file:
+                for key, similitud, value in textosSorteados:
+                    file.write("({}) : {}\n".format(key, value))
+                print(f"Resultados escritos en: '{pathNuevo}'.")
+        except Exception as e:
+            print("Ha ocurrido un error: ", e)
+
+    def calcularFrecuencias(self, texto):
+        frecuenciasDict = {letra: texto.count(letra) / len(texto) for letra in self.alfabeto}
+        return frecuenciasDict
+    
+    def calcularSimilitud(self, frecuenciasDict):
+        similitud = sum((frecuenciasDict[letra] - self.frecuenciasTeoricas[letra])**2 for letra in self.alfabeto)
+        return similitud

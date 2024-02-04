@@ -65,6 +65,7 @@ def parteB():
     frecuenciasExp = frecuenciasCaesar.obtenerFrecuencias(textoCaesar)
     frecuenciasExpSort, frecuenciasTeoSort = frecuenciasCaesar.ordenarFrecuencias(frecuenciasExp)
     caesar.fuerzaBruta(textoCaesar, frecuenciasTeoSort, frecuenciasExpSort)
+    frecuenciasCaesar.compararFrecuencias('Labs/Lab1/Textos/caesar.txt', 'Labs/Lab1/Textos/caesar2.txt')
 
     # Afin
     print('\n\t[2] AFIN')
@@ -76,6 +77,7 @@ def parteB():
     frecuenciasExp = frecuenciasAfin.obtenerFrecuencias(textoAfin)
     frecuenciasExpSort, frecuenciasTeoSort = frecuenciasAfin.ordenarFrecuencias(frecuenciasExp)
     afin.fuerzaBruta(textoAfin, frecuenciasTeoSort, frecuenciasExpSort)
+    frecuenciasAfin.compararFrecuencias('Labs/Lab1/Textos/afin.txt', 'Labs/Lab1/Textos/afin2.txt')
 
     # Vigenere
     print('\n\t[3] VIGENERE')
@@ -84,10 +86,9 @@ def parteB():
     
     vigenere = Vigenere()
     frecuenciasVigenere = Frecuencias()
-    frecuenciasExp = frecuenciasVigenere.obtenerFrecuencias(textoVigenere)
-    frecuenciasExpSort, frecuenciasTeoSort = frecuenciasVigenere.ordenarFrecuencias(frecuenciasExp)
     longitud = vigenere.obtenerLongitud(textoVigenere)
     vigenere.fuerzaBruta2(textoVigenere, longitud)
+    frecuenciasVigenere.compararFrecuencias('Labs/Lab1/Textos/vigenere.txt', 'Labs/Lab1/Textos/vigenere2.txt')
 
 if __name__ == '__main__':
     parteA()
