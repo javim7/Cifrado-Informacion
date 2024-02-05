@@ -48,7 +48,7 @@ class Afin():
 
         return plainText
     
-    def fuerzaBruta(self, texto, sortedTeo, sortedExp):
+    def fuerzaBruta(self, texto, sortedTeo, sortedExp, output=None):
         firstTeo = next(iter(sortedTeo.keys()))
         secondTeo = next(iter(sortedTeo.keys()))
 
@@ -67,7 +67,9 @@ class Afin():
                 # print(current_a, current_b, plainText[:20])
                 dictionary[(current_a, current_b)] = plainText
         
-        output_file_path = "Labs/Lab1/Textos/afin.txt"
+        if output is None:
+            output = "Labs/Lab1/Textos/afin.txt"
+        output_file_path = output
         try:
             with open(output_file_path, 'w') as file:
                 for key, value in dictionary.items():

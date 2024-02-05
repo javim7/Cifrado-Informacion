@@ -41,7 +41,7 @@ class Caesar():
 
         return plainText
     
-    def fuerzaBruta(self, texto, sortedOg, sortedNew):
+    def fuerzaBruta(self, texto, sortedOg, sortedNew, output=None):
         firstOg = next(iter(sortedOg.keys()))
         firstNew = next(iter(sortedNew.keys()))
 
@@ -56,7 +56,10 @@ class Caesar():
             dict[current_key] = plainText
             # print("Key: {:2d} Text: {}".format(current_key, plainText))
 
-        output_file_path = "Labs/Lab1/Textos/caesar.txt"
+        if output is None:
+            output = 'Labs/Lab1/Textos/caesar.txt'
+        
+        output_file_path = output
         try:
             with open(output_file_path, 'w') as output_file:
                 for key, value in dict.items():

@@ -105,7 +105,7 @@ class Vigenere():
 
         return filtered_lista
     
-    def fuerzaBruta(self, cypherText, longitud):
+    def fuerzaBruta(self, cypherText, longitud, output=None):
         combinaciones = product(self.alfabeto, repeat=longitud)
         
         dict = {}
@@ -114,7 +114,9 @@ class Vigenere():
             plainText = self.decrypt(cypherText, llave)
             dict[llave] = plainText
 
-        output_file_path = "Labs/Lab1/Textos/vigenere.txt"
+        if output is None:
+            output = "Labs/Lab1/Textos/vigenere.txt"
+        output_file_path = output
         try:
             with open(output_file_path, 'w') as file:
                 for key, value in dict.items():
@@ -123,7 +125,7 @@ class Vigenere():
         except Exception as e:
             print("Ha ocurrido un error: ", e)
     
-    def fuerzaBruta2(self, cypherText, longitud):
+    def fuerzaBruta2(self, cypherText, longitud, output=None):
         primerasLetras = 'BE'
         longitudRes = longitud - len(primerasLetras)
 
@@ -135,7 +137,9 @@ class Vigenere():
             plainText = self.decrypt(cypherText, llave)
             dict[llave] = plainText
 
-        output_file_path = "Labs/Lab1/Textos/vigenere.txt"
+        if output is None:
+            output = "Labs/Lab1/Textos/vigenere.txt"
+        output_file_path = output
         try:
             with open(output_file_path, 'w') as file:
                 for key, value in dict.items():
