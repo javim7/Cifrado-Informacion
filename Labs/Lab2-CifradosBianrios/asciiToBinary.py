@@ -1,10 +1,13 @@
 def main():
-    word = 'hola'
+    word = 'Sun'
     binaryRep = asciiToBinary(word)
     asciiRep = binaryToAscii(binaryRep)
     print('Binary representation: ' + binaryRep)
-    print('Ascii representation: ' + asciiRep)
+    print('Ascii representation : ' + asciiRep)
 
+'''
+CODIFICACION
+'''
 def asciiToBinary(word):
     binaryRepresentation = ''
     for letter in word:
@@ -26,6 +29,10 @@ def getBinaryFromWord(ascii):
     while len(binaryNumber) < 8:
         binaryNumber = '0' + binaryNumber
     return binaryNumber
+
+'''
+DECODIFICACION
+'''
 
 def binaryToAscii(binaryRep):
     asciiRepresentation = ''
