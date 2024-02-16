@@ -6,6 +6,10 @@ def main():
     print('XOR representation: ' + str(xor_rep))
     print('Ascii representation : ' + str(ascii_rep))
 
+    image = './Lab2-CifradosBinarios/imagen_xor.png'
+    key = 'cifrados'
+    imageXOR(image, key)
+
 '''
 CODIFICACION
 '''
@@ -79,6 +83,17 @@ def binaryToAscii(binary_string):
     # Eliminar caracteres ficticios
     ascii_string = ascii_string.rstrip('\0')
     return ascii_string
+
+'''
+IMAGENES
+'''
+def imageXOR(image, key):
+    pass
+
+def imageToBytes(image):
+    with open(image, 'rb') as file:
+        imageBytes = file.read()
+    return imageBytes   
 
 if __name__ == "__main__":
     main()
