@@ -6,7 +6,7 @@ def main():
     print('XOR representation: ' + str(xor_rep))
     print('Ascii representation : ' + str(ascii_rep))
 
-    image = './Lab2-CifradosBinarios/imagen_xor.png'
+    image = './imagenes/imagen_xor.png'
     key = 'cifrados'
     imageXOR(image, key)
 
@@ -88,12 +88,38 @@ def binaryToAscii(binary_string):
 IMAGENES
 '''
 def imageXOR(image, key):
-    pass
+    imageBytes = imageToBytes(image)
+    key = checkKeyLength(imageBytes, key)
+    binary_key = ''
+    for letter in key:
+        ascii_val = getAsciiFromLetter(letter)
+        binary = getBinaryFromNumber(ascii_val)
+        binary_key += binary
+    xOr_rep = xOr(imageBytes, binary_key)
+    newPath = bytesToImage(xOr_rep, './imagenes/imagen_xor2')
+    return newPath
 
 def imageToBytes(image):
-    with open(image, 'rb') as file:
-        imageBytes = file.read()
-    return imageBytes   
+   with open(image, 'rb') as f:
+    contenido = f.read()
+
+    binary_data = ['{:08b}'.format(byte) for byte in contenido]  
+    return ''.join(binary_data)
+
+def checkKeyLength(imageBytes, key):
+    charLength = len(imageBytes) // 8
+
+    if len(key) < charLength:
+        key = key * (charLength // len(key)) + key[:charLength % len(key)]
+    
+    return key
+
+def bytesToImage(binary_string, name):
+    with open(name + '.png', 'wb') as f:
+        for i in range(0, len(binary_string), 8):
+            byte = binary_string[i:i+8]
+            f.write(bytes([int(byte, 2)]))
+    return name + '.png'
 
 if __name__ == "__main__":
     main()
