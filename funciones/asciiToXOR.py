@@ -1,15 +1,3 @@
-def main():
-    word = 'sun'
-    key = 'ke'
-    xor_rep = asciiToXOR(word, key)
-    ascii_rep = xOrToAscii(xor_rep, key)
-    print('XOR representation: ' + str(xor_rep))
-    print('Ascii representation : ' + str(ascii_rep))
-
-    image = './imagenes/imagen_xor.png'
-    key = 'cifrados'
-    imageXOR(image, key)
-
 '''
 CODIFICACION
 '''
@@ -85,7 +73,7 @@ def binaryToAscii(binary_string):
     return ascii_string
 
 '''
-IMAGENES
+IMAGEN CON CLAVE
 '''
 def imageXOR(image, key):
     imageBytes = imageToBytes(image)
@@ -120,6 +108,50 @@ def bytesToImage(binary_string, name):
             byte = binary_string[i:i+8]
             f.write(bytes([int(byte, 2)]))
     return name + '.png'
+
+'''
+DOS IMAGENES
+'''
+from PIL import Image
+
+def imagesXOR(image1_path, image2_path, output_path):
+    # Abrir ambas imágenes
+    image1 = Image.open(image1_path)
+    image2 = Image.open(image2_path)
+
+    # Asegurarse de que ambas imágenes tengan el mismo tamaño
+    if image1.size != image2.size:
+        raise ValueError("Las imágenes deben tener el mismo tamaño")
+
+    # Convertir las imágenes a modo RGBA (para tener 4 canales: rojo, verde, azul y alfa)
+    image1 = image1.convert("RGBA")
+    image2 = image2.convert("RGBA")
+
+    # Aplicar la operación XOR byte a byte
+    xor_image = Image.alpha_composite(Image.blend(image1, image2, alpha=0.5), Image.blend(image2, image1, alpha=0.5))
+
+    # Guardar la imagen resultante
+    xor_image.save(output_path)
+
+'''
+MAIN
+'''
+def main():
+    word = 'sun'
+    key = 'ke'
+    xor_rep = asciiToXOR(word, key)
+    ascii_rep = xOrToAscii(xor_rep, key)
+    print('XOR representation: ' + str(xor_rep))
+    print('Ascii representation : ' + str(ascii_rep))
+
+    image = './imagenes/imagen_xor.png'
+    key = 'cifrados'
+    imageXOR(image, key)
+
+    image1 = './imagenes/view.png'
+    image2 = './imagenes/dog.png'
+    output_path = './imagenes/viewDogXor.png'
+    imagesXOR(image1, image2, output_path)
 
 if __name__ == "__main__":
     main()

@@ -1,10 +1,3 @@
-def main():
-    word = 'Sun'
-    base64_rep = asciiToBase64(word)
-    ascii_rep = base64ToAscii(base64_rep)
-    print('Base64 representation: ' + base64_rep)
-    print('Ascii representation : ' + ascii_rep)
-
 '''
 CODIFICACION
 '''
@@ -101,6 +94,16 @@ def getAsciiFromChunks(groups_of_8):
         ascii += chr(decimal)
         # print(ascii)
     return ascii
+
+'''
+MAIN
+'''
+def main():
+    word = 'Sun'
+    base64_rep = asciiToBase64(word)
+    ascii_rep = base64ToAscii(base64_rep)
+    print('Base64 representation: ' + base64_rep)
+    print('Ascii representation : ' + ascii_rep)
 
 if __name__ == "__main__":
     main()

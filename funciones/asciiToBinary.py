@@ -1,10 +1,3 @@
-def main():
-    word = 'Sun'
-    binaryRep = asciiToBinary(word)
-    asciiRep = binaryToAscii(binaryRep)
-    print('Binary representation: ' + binaryRep)
-    print('Ascii representation : ' + asciiRep)
-
 '''
 CODIFICACION
 '''
@@ -50,6 +43,17 @@ def getDecimalFromBinary(binary):
 
 def getAsciiFromDecimal(decimal):
     return chr(decimal)
+
+'''
+MAIN
+'''
+def main():
+    word = 'Sun'
+    binaryRep = asciiToBinary(word)
+    asciiRep = binaryToAscii(binaryRep)
+    print('Binary representation: ' + binaryRep)
+    print('Ascii representation : ' + asciiRep)
+
 
 if __name__ == "__main__":
     main()
