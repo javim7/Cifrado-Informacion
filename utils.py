@@ -4,18 +4,20 @@ import string
 def main():
     plainText = 'HELLO'
     key = keyStreamGenerator(len(plainText))
-    xOr_rep, binaryKey = encrypt(plainText, key)
-    decryptedText = decrypt(xOr_rep, binaryKey)
     print('Original text : ' + plainText)
-    print('Key           : ' + ''.join(key))
+    print('Key           : ' + key)
+
+    xOr_rep, binaryKey = encrypt(plainText, key)
     print('Encrypted text: ' + xOr_rep)
+    
+    decryptedText = decrypt(xOr_rep, binaryKey)
     print('Decrypted text: ' + decryptedText)
     
 def encrypt(plainText, key):
     binaryText = textToBinary(plainText)
     binaryKey = textToBinary(key)
-    print('Binary text : ' + binaryText)
-    print('Binary key  : ' + binaryKey)
+    print('Binary text   : ' + binaryText)
+    print('Binary key    : ' + binaryKey)
     xOr_rep = xOr(binaryText, binaryKey)
     # print('XOR        : ' + xOr_rep)
     return xOr_rep, binaryKey
@@ -59,7 +61,7 @@ def numberToBinary(ascii):
 def keyStreamGenerator(length):
     characters = string.printable.replace(' ', '').replace('\n', '')
     key = [random.choice(characters) for _ in range(length)]
-    return key
+    return ''.join(key)
 
 if __name__ == '__main__':
     main()
