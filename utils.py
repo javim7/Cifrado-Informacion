@@ -11,15 +11,17 @@ def main():
     print('Encrypted text: ' + xOr_rep)
     print('Decrypted text: ' + decryptedText)
     
-def encrypt(text, key):
-    binaryText = textToBinary(text)
+def encrypt(plainText, key):
+    binaryText = textToBinary(plainText)
     binaryKey = textToBinary(key)
+    print('Binary text : ' + binaryText)
+    print('Binary key  : ' + binaryKey)
     xOr_rep = xOr(binaryText, binaryKey)
     # print('XOR        : ' + xOr_rep)
     return xOr_rep, binaryKey
 
-def decrypt(xOr_rep, binaryKey):
-    decriptedBinary = xOr(xOr_rep, binaryKey)
+def decrypt(cipherText, binaryKey):
+    decriptedBinary = xOr(cipherText, binaryKey)
     decriptedTxt = binaryToAscii(decriptedBinary)
     # print('Decripted text : ' + decriptedTxt)
     return decriptedTxt
@@ -38,14 +40,14 @@ def binaryToAscii(binary_string):
 def textToBinary(text):
     binary = ''
     for letter in text:
-        ascii_val = getAsciiFromLetter(letter)
-        binary += getBinaryFromNumber(ascii_val)
+        ascii_val = letterToAscii(letter)
+        binary += numberToBinary(ascii_val)
     return binary
 
-def getAsciiFromLetter(letter):
+def letterToAscii(letter):
     return ord(letter)
 
-def getBinaryFromNumber(ascii):
+def numberToBinary(ascii):
     binaryNumber = ''
     while ascii > 0:
         binaryNumber = str(ascii % 2) + binaryNumber
