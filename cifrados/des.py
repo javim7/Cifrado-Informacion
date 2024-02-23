@@ -4,7 +4,7 @@ from Crypto.Util.Padding import pad, unpad
 
 def encryptDes(key, plainText):
     cipher = DES.new(key, DES.MODE_ECB)
-    # Check if plainText is already bytes, if not, encode it
+    # Revisar si plainText es un string o bytes
     if not isinstance(plainText, bytes):
         plainText = plainText.encode()
     padded_plainText = pad(plainText, DES.block_size)
@@ -18,30 +18,34 @@ def decryptDes(key, encrypted_plainText):
     decrypted_plainText = unpad(decrypted_padded_plainText, DES.block_size)
     return decrypted_plainText
 
-def ogDES():
+def ogDES(plainText):
     # La llave debe ser de 8 bytes
     key = get_random_bytes(8)
+    print("Plain text:", plainText)
     print("Key:", key.hex())
-    plainText = "Hello, this is some sensitive information."
 
     encrypted_plainText = encryptDes(key, plainText)
-    print("Encrypted plainText:", encrypted_plainText.hex())
+    print("\nEncrypted text:", encrypted_plainText.hex())
 
     decrypted_plainText = decryptDes(key, encrypted_plainText)
-    print("Decrypted plainText:", decrypted_plainText.decode())
+    print("Decrypted Text:", decrypted_plainText.decode())
 
-def tripDES():
+def tripDES(plainText):
     key1 = get_random_bytes(8)
     key2 = get_random_bytes(8)
     key3 = get_random_bytes(8)
-
-    plainText = "Hello, this is some sensitive information."
     
+    print("Plain text:", plainText)
+    
+    print("\nKey 1:", key1.hex())
+    print("Key 2:", key2.hex())
+    print("Key 3:", key3.hex())
+
     encrypted_text = encryptTDEA(key1, key2, key3, plainText)
-    print("Encrypted plainText:", encrypted_text.hex())
+    print("\nEncrypted text:", encrypted_text.hex())
 
     decrypted_text = decryptTDEA(key1, key2, key3, encrypted_text)
-    print("Decrypted plainText:", decrypted_text.decode())
+    print("Decrypted text:", decrypted_text.decode())
 
 def encryptTDEA(key1, key2, key3, plainText):
     encrypted_S1 = encryptDes(key1, plainText)
@@ -59,7 +63,8 @@ def decryptTDEA(key1, key2, key3, encrypted_text):
 
 if __name__ == "__main__":
     print("\nDES")
-    ogDES()
+    plainText = "Hello, this is some sensitive information."
+    ogDES(plainText)
 
     print("\nTriple DES")
-    tripDES()
+    tripDES(plainText)
