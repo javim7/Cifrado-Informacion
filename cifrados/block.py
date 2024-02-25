@@ -1,42 +1,62 @@
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
-from Crypto.Util.Padding import pad, unpad
+from Crypto.Util.Padding import pad
+from Crypto.Util.Padding import unpad
 from PIL import Image
-import io
 
-def encryptImageECB(key, imagePath, outputPath):
-    with open(imagePath, "rb") as file:
-        imageBytes = file.read()
-
+# ECB Mode Encryption
+def ecb_encrypt(input_image_path, output_image_path, key):
+    image = Image.open(input_image_path)
+    image_bytes = image.tobytes()
+    padded_data = pad(image_bytes, AES.block_size)
+    
     cipher = AES.new(key, AES.MODE_ECB)
-    paddedImageBytes = pad(imageBytes, AES.block_size)
-    encryptedImageBytes = cipher.encrypt(paddedImageBytes)
+    encrypted_data = cipher.encrypt(padded_data)
+    
+    with Image.frombytes('RGB', image.size, encrypted_data) as im_ecb:
+        im_ecb.save(output_image_path)
 
-    with open(outputPath, "wb") as file:
-        file.write(encryptedImageBytes)
-
-def encryptImageCBC(key, imagePath, outputPath):
-    with open(imagePath, "rb") as file:
-        imageBytes = file.read()
-
-    iv = get_random_bytes(16)
+# CBC Mode Encryption
+def cbc_encrypt(input_image_path, output_image_path, key):
+    image = Image.open(input_image_path)
+    image_bytes = image.tobytes()
+    padded_data = pad(image_bytes, AES.block_size)
+    
+    iv = get_random_bytes(AES.block_size)
     cipher = AES.new(key, AES.MODE_CBC, iv)
-
-    paddedImageBytes = pad(imageBytes, AES.block_size)
-    encryptedImageBytes = cipher.encrypt(paddedImageBytes)
-
-    with open(outputPath, "wb") as file:
-        file.write(iv + encryptedImageBytes)
+    encrypted_data = cipher.encrypt(padded_data)
+    
+    with Image.frombytes('RGB', image.size, encrypted_data) as im_cbc:
+        im_cbc.save(output_image_path)
 
 def main():
-    key = get_random_bytes(16)
-    input_image_path = 'input_image.jpg'
-    
-    encrypted_image_path_ecb = 'encrypted_image_ecb.enc'
-    encryptImageECB(key, input_image_path, encrypted_image_path_ecb)
 
-    encrypted_image_path_cbc = 'encrypted_image_cbc.enc'
-    encryptImageCBC(key, input_image_path, encrypted_image_path_cbc)
+    key = get_random_bytes(32)  # 256-bit key
+
+    # logo
+    input_image_path = "./images/logo.webp"
+    output_ecb_image_path = "./images/logoECB.webp"
+    output_cbc_image_path = "./images/logoCBC.webp"
+
+    ecb_encrypt(input_image_path, output_ecb_image_path, key)
+    cbc_encrypt(input_image_path, output_cbc_image_path, key)
+
+    # tux
+    input_image_path = "./images/tux.ppm"
+    output_ecb_image_path = "./images/tuxECB.ppm"
+    output_cbc_image_path = "./images/tuxCBC.ppm"
+
+    ecb_encrypt(input_image_path, output_ecb_image_path, key)
+    cbc_encrypt(input_image_path, output_cbc_image_path, key)
+
+    # foto
+    input_image_path = "./images/foto.jpeg"
+    output_ecb_image_path = "./images/fotoECB.jpeg"
+    output_cbc_image_path = "./images/fotoCBC.jpeg"
+
+    ecb_encrypt(input_image_path, output_ecb_image_path, key)
+    cbc_encrypt(input_image_path, output_cbc_image_path, key)
 
 if __name__ == "__main__":
     main()
+
